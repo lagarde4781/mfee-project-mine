@@ -15,9 +15,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Category name</td>
+        <tr v-for="(category, index) in categories" :key="category._id">
+          <th scope="row">{{ index + 1 }}</th>
+          <td>{{ category.name }}</td>
           <td>
             <i class="fa-solid fa-pen me-3" data-bs-toggle="modal" data-bs-target="#createCategoryModal"></i>
             <i class="fa-solid fa-trash"></i>
@@ -35,6 +35,24 @@ export default {
   name: 'CategoryList',
   components: {
     CategoryForm
+  },
+  data() {
+    return {
+      categories: [
+        {
+          _id: '2',
+          name: 'Category 1'
+        },
+        {
+          _id: '3',
+          name: 'Category 2'
+        },
+        {
+          _id: '4',
+          name: 'Category 3'
+        }
+      ]
+    };
   }
 };
 </script>
