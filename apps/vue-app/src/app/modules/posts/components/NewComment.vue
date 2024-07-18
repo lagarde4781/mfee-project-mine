@@ -5,7 +5,7 @@
     </form>
   </div>
   <div class="col-md-6">
-    <button class="btn btn-primary mt-2">Add</button>
+    <button class="btn btn-primary mt-2" @click="save()">Add</button>
   </div>
 </template>
 
@@ -15,6 +15,11 @@ export default {
     return {
       comment: ''
     };
+  },
+  methods: {
+    save() {
+      console.log('🚀 ~ save');
+    }
   }
 };
 </script>

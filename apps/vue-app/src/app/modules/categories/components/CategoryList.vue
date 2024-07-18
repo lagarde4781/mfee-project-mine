@@ -19,8 +19,13 @@
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ category.name }}</td>
           <td>
-            <i class="fa-solid fa-pen me-3" data-bs-toggle="modal" data-bs-target="#createCategoryModal"></i>
-            <i class="fa-solid fa-trash"></i>
+            <i
+              class="fa-solid fa-pen me-3"
+              data-bs-toggle="modal"
+              data-bs-target="#createCategoryModal"
+              @click="updateCategory(category)"
+            ></i>
+            <i class="fa-solid fa-trash" @click="deleteCategory(category._id)"></i>
           </td>
         </tr>
       </tbody>
@@ -53,6 +58,14 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+    updateCategory(category) {
+      console.log('🚀 ~ updateCategory ~ category:', category);
+    },
+    deleteCategory(id) {
+      console.log('🚀 ~ deleteCategory ~ id:', id);
+    }
   }
 };
 </script>
