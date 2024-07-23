@@ -31,7 +31,7 @@
       </tbody>
     </table>
   </div>
-  <CategoryForm />
+  <CategoryForm :categorySelected="categorySelected" />
 </template>
 
 <script>
@@ -56,12 +56,13 @@ export default {
           _id: '4',
           name: 'Category 3'
         }
-      ]
+      ],
+      categorySelected: null
     };
   },
   methods: {
     updateCategory(category) {
-      console.log('🚀 ~ updateCategory ~ category:', category);
+      this.categorySelected = category;
     },
     deleteCategory(id) {
       console.log('🚀 ~ deleteCategory ~ id:', id);

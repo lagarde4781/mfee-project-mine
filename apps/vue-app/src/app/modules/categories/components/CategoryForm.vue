@@ -26,6 +26,11 @@
 <script>
 export default {
   name: 'CategoryForm',
+  props: {
+    categorySelected: {
+      type: Object
+    }
+  },
   data() {
     return {
       action: 'Create',

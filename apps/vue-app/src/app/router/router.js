@@ -23,6 +23,23 @@ const routes = [
     props: true
   },
   {
+    path: '/login',
+    name: 'login',
+    component: () => import(/* webpackChunkName: "LoginView"*/ '../modules/auth/views/LoginView.vue')
+  },
+  {
+    path: '/signUp',
+    name: 'signUp',
+    component: () => import(/* webpackChunkName: "SignUpView"*/ '../modules/auth/views/SignUpView.vue')
+  },
+  {
+    path: '/categories',
+    name: 'categories',
+    component: () =>
+      // TODO: Carga perezosa
+      import(/* webpackChunkName: "Categories"*/ '../modules/categories/views/CategoryView.vue')
+  },
+  {
     path: '/:pathMatch(.*)*',
     component: () => import(/* webpackChunkName: "NotFoundView"*/ '../shared/views/NotFoundView.vue')
   }

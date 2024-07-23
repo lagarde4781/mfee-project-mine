@@ -26,6 +26,8 @@
   </div>
 </template>
 <script>
+import router from '../../../router/router';
+
 export default {
   data() {
     return {
@@ -37,7 +39,9 @@ export default {
   },
   methods: {
     signUp() {
-      console.log('🚀 ~ signUp');
+      router.push({
+        name: 'signUp'
+      });
     },
     login() {
       console.log('🚀 ~ login');
