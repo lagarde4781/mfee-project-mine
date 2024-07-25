@@ -33,6 +33,7 @@
 <script>
 import CommentsList from '../components/CommentsList.vue';
 import { store } from '../../../store/store';
+import { getPostById } from '../../../helpers/posts';
 
 export default {
   props: {
@@ -43,28 +44,18 @@ export default {
   },
   data() {
     return {
-      post: {
-        title: 'The waves are high & beautiful u',
-        description:
-          'This is a wider card with supporting text below as a natural lead-i to additional content. This content is a little bit longer.',
-        image: 'https://cdn.pixabay.com/photo/2017/02/22/17/06/wave-2089959_960_720.jpg',
-        category: {
-          _id: '2',
-          name: 'Travel'
-        },
-        comments: [
-          {
-            author: 'Alejandro',
-            content: 'First comment'
-          }
-        ],
-        _id: '1'
-      },
-      store
+      store,
+      post: {}
     };
+  },
+  methods: {
+    async getPostById(postId) {
+      this.post = await getPostById(postId);
+    }
   },
   created() {
     this.store.setShowNav(false);
+    this.getPostById(this.id);
   },
   unmounted() {
     this.store.setShowNav(true);
