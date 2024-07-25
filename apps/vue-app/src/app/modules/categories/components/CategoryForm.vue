@@ -10,8 +10,15 @@
           <form>
             <div class="form-group pb-3">
               <label>Name</label>
-              <input type="text" class="form-control" v-model="category.name" />
-              <span class="form-text text-danger"> Error </span>
+              <input
+                type="text"
+                class="form-control"
+                v-model="category.name"
+                :class="v$.category.name.$error === true ? 'is-invalid' : ''"
+              />
+              <span class="form-text text-danger" v-for="error of v$.category.name.$errors" :key="error.$uid">
+                {{ error.$message }}
+              </span>
             </div>
           </form>
         </div>
@@ -23,7 +30,13 @@
     </div>
   </div>
 </template>
+
 <script>
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required } from '@vuelidate/validators';
+import { createCategory } from '../../../helpers/categories';
+import { store } from '../../../store/store';
+
 export default {
   name: 'CategoryForm',
   props: {
@@ -33,19 +46,57 @@ export default {
   },
   data() {
     return {
+      v$: useVuelidate(),
       action: 'Create',
       category: {
         _id: null,
         name: null
+      },
+      store
+    };
+  },
+  validations() {
+    return {
+      category: {
+        name: {
+          required: helpers.withMessage('Name field is required.', required),
+          $autoDirty: true
+        }
       }
     };
   },
   methods: {
     reset() {
-      console.log('🚀 ~ reset');
+      this.category = {
+        _id: null,
+        name: null
+      };
+      this.v$.$reset();
     },
-    submit() {
-      console.log('🚀 ~ submit');
+    async submit() {
+      const isValid = await this.v$.$validate();
+
+      if (!isValid) {
+        this.v$.$touch();
+      } else {
+        const category = {
+          name: this.category.name
+        };
+
+        this.saveCategory(category);
+      }
+    },
+    async saveCategory(category) {
+      let status;
+      if (this.action === 'Create') {
+        status = await createCategory(category);
+      }
+      if (status) {
+        this.store.getCategories();
+      } else {
+        console.error("The category couldn't be saved");
+      }
+      this.$refs.btnCloseModal.click();
     }
   }
 };

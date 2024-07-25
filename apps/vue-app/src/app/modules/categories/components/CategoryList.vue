@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(category, index) in categories" :key="category._id">
+        <tr v-for="(category, index) in store.categories" :key="category._id">
           <th scope="row">{{ index + 1 }}</th>
           <td>{{ category.name }}</td>
           <td>
@@ -36,6 +36,9 @@
 
 <script>
 import CategoryForm from './CategoryForm.vue';
+import { deleteCategory } from '../../../helpers/categories';
+import { store } from '../../../store/store';
+
 export default {
   name: 'CategoryList',
   components: {
@@ -43,30 +46,26 @@ export default {
   },
   data() {
     return {
-      categories: [
-        {
-          _id: '2',
-          name: 'Category 1'
-        },
-        {
-          _id: '3',
-          name: 'Category 2'
-        },
-        {
-          _id: '4',
-          name: 'Category 3'
-        }
-      ],
-      categorySelected: null
+      categories: [],
+      categorySelected: null,
+      store
     };
   },
   methods: {
     updateCategory(category) {
       this.categorySelected = category;
     },
-    deleteCategory(id) {
-      console.log('🚀 ~ deleteCategory ~ id:', id);
+    async deleteCategory(id) {
+      const status = await deleteCategory(id);
+      if (status) {
+        this.store.getCategories();
+      } else {
+        console.error("The category couldn't be deleted");
+      }
     }
+  },
+  created() {
+    this.store.getCategories();
   }
 };
 </script>
