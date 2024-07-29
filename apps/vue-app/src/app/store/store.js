@@ -18,5 +18,9 @@ export const store = reactive({
   showNav: true,
   setShowNav(show) {
     this.showNav = show;
+  },
+  postEditing: null,
+  setPostEditing(post) {
+    this.postEditing = post;
   }
 });
