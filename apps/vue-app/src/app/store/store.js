@@ -8,5 +8,9 @@ export const store = reactive({
   posts: [],
   async getPosts() {
     this.posts = await getPosts();
+  },
+  postEditing: null,
+  setPostEditing(post) {
+    this.postEditing = post;
   }
 });
