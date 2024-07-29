@@ -70,3 +70,18 @@ export const deletePost = async (id) => {
 
   return status;
 };
+
+export const addComment = async (idPost, comment) => {
+  let status;
+  await capstoneApi
+    .post(`/posts/${idPost}/comments`, comment)
+    .then(() => {
+      status = true;
+    })
+    .catch((e) => {
+      status = false;
+      console.error(e);
+    });
+
+  return status;
+};

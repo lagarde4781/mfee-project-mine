@@ -38,12 +38,14 @@
 import CategoryForm from './CategoryForm.vue';
 import { deleteCategory } from '../../../helpers/categories';
 import { store } from '../../../store/store';
+import { alerts } from '../../../helpers/alerts';
 
 export default {
   name: 'CategoryList',
   components: {
     CategoryForm
   },
+  mixins: [alerts],
   data() {
     return {
       categories: [],
@@ -58,9 +60,10 @@ export default {
     async deleteCategory(id) {
       const status = await deleteCategory(id);
       if (status) {
+        this.showAlert('success', 'The category has been deleted');
         this.store.getCategories();
       } else {
-        console.error("The category couldn't be deleted");
+        this.showAlert('error', "The category couldn't be deleted");
       }
     }
   },

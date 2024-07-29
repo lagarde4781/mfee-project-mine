@@ -10,11 +10,12 @@
 <script>
 export default {
   name: 'CommentItem',
+  props: {
+    content: String,
+    author: String
+  },
   data() {
-    return {
-      content: 'First Comment',
-      author: 'Joe Doe'
-    };
+    return {};
   }
 };
 </script>

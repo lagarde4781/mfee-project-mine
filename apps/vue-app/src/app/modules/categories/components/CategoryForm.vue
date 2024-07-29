@@ -34,8 +34,9 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
-import { createCategory } from '../../../helpers/categories';
+import { createCategory, updateCategory } from '../../../helpers/categories';
 import { store } from '../../../store/store';
+import { alerts } from '../../../helpers/alerts';
 
 export default {
   name: 'CategoryForm',
@@ -44,6 +45,7 @@ export default {
       type: Object
     }
   },
+  mixins: [alerts],
   data() {
     return {
       v$: useVuelidate(),
@@ -90,13 +92,31 @@ export default {
       let status;
       if (this.action === 'Create') {
         status = await createCategory(category);
+      } else {
+        status = await updateCategory({ category, _id: this.categorySelected._id });
       }
       if (status) {
+        this.showAlert('success', 'The category has been saved');
         this.store.getCategories();
       } else {
-        console.error("The category couldn't be saved");
+        this.showAlert('error', "The category couldn't be saved");
       }
       this.$refs.btnCloseModal.click();
+    }
+  },
+  watch: {
+    categorySelected(newValue) {
+      if (newValue) {
+        const { _id, name } = newValue;
+        this.category = {
+          _id,
+          name
+        };
+        this.action = 'Edit';
+      } else {
+        this.action = 'Create';
+        this.reset();
+      }
     }
   }
 };

@@ -24,7 +24,7 @@
         <p class="fs-5">
           {{ post.description }}
         </p>
-        <CommentsList />
+        <CommentsList :comments="post.comments" />
       </div>
     </div>
   </div>

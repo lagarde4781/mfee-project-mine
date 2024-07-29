@@ -57,9 +57,11 @@ import { useVuelidate } from '@vuelidate/core';
 import { helpers, required } from '@vuelidate/validators';
 import { signUp } from '../../../helpers/auth';
 import router from '../../../router/router';
+import { alerts } from '../../../helpers/alerts';
 
 export default {
   name: 'SignUpForm',
+  mixins: [alerts],
   data() {
     return {
       v$: useVuelidate(),
@@ -111,11 +113,12 @@ export default {
       const status = await signUp(newUser);
 
       if (status) {
+        this.showAlert('success', 'It has been registered');
         router.push({
           name: 'login'
         });
       } else {
-        console.error("It couldn't be registered");
+        this.showAlert('error', "It couldn't be registered");
       }
 
       this.error = null;
